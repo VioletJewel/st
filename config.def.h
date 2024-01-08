@@ -16,7 +16,7 @@ static int borderpx = 0;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/usr/bin/zsh";
 char *utmp = NULL;
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = NULL;
@@ -26,7 +26,7 @@ char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 1.0;
+static float cwscale = 0.95;
 static float chscale = 1.0;
 
 /*
@@ -91,7 +91,7 @@ char *termname = "st-256color";
  *
  *	stty tabs
  */
-unsigned int tabspaces = 8;
+unsigned int tabspaces = 4;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -201,7 +201,7 @@ static MouseShortcut mshortcuts[] = {
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
 
-#define ACMPL_MOD ControlMask|Mod1Mask
+#define ACMPL_MOD Mod1Mask|ShiftMask
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
@@ -209,27 +209,22 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
-	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_plus,        zoom,           {.f = +1} },
+	{ TERMMOD,              XK_underscore,  zoom,           {.f = -1} },
+	{ TERMMOD,              XK_parenright,  zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
-	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	{ MODKEY|ShiftMask,     XK_K,           kscrollup,      {.i = -1} },
+	{ MODKEY|ShiftMask,     XK_J,           kscrolldown,    {.i = -1} },
 	{ MODKEY,               XK_u,           copyurl,        {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_U,           copyurl,        {.i =  1} },
 	{ MODKEY,               XK_Return,      opencopied,     {.v = "xdg-open"} },
-	{ ACMPL_MOD,            XK_slash,       autocomplete,   { .i = ACMPL_WORD        } },
-	{ ACMPL_MOD,            XK_period,      autocomplete,   { .i = ACMPL_FUZZY_WORD  } },
-	{ ACMPL_MOD,            XK_comma,       autocomplete,   { .i = ACMPL_FUZZY       } },
-	{ ACMPL_MOD,            XK_apostrophe,  autocomplete,   { .i = ACMPL_SUFFIX      } },
-	{ ACMPL_MOD,            XK_semicolon,   autocomplete,   { .i = ACMPL_SURROUND    } },
-	{ ACMPL_MOD,            XK_bracketright,autocomplete,   { .i = ACMPL_WWORD       } },
-	{ ACMPL_MOD,            XK_bracketleft, autocomplete,   { .i = ACMPL_FUZZY_WWORD } },
-	{ ACMPL_MOD,            XK_equal,       autocomplete,   { .i = ACMPL_UNDO        } },
+	{ MODKEY|ShiftMask,     XK_L,           autocomplete,   {.i = ACMPL_WORD } },
+	{ MODKEY|ShiftMask,     XK_colon,       autocomplete,   {.i = ACMPL_FUZZY} },
+	{ MODKEY|ShiftMask,     XK_BackSpace,   autocomplete,   {.i = ACMPL_UNDO } },
 };
 
 /*
