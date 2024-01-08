@@ -207,6 +207,7 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 	{ MODKEY,               XK_u,           copyurl,        {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_U,           copyurl,        {.i =  1} },
+	{ MODKEY,               XK_Return,      opencopied,     {.v = "xdg-open"} },
 };
 
 /*
