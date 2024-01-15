@@ -46,6 +46,12 @@ enum selection_mode {
 	SEL_READY = 2
 };
 
+enum drawing_mode {
+	DRAW_NONE = 0,
+	DRAW_BG = 1 << 0,
+	DRAW_FG = 1 << 1,
+};
+
 enum selection_type {
 	SEL_REGULAR = 1,
 	SEL_RECTANGULAR = 2
