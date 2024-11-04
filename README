@@ -2,6 +2,28 @@ st - simple terminal
 --------------------
 st is a simple terminal emulator for X which sucks less.
 
+Violet's Patches
+----------------
+scrollback (ringbuffer, mouse): https://st.suckless.org/patches/scrollback/
+ligatures                     : https://st.suckless.org/patches/ligatures/
+bold-is-not-bright            : https://st.suckless.org/patches/bold-is-not-bright/
+copyurl (select, multiline)   : https://st.suckless.org/patches/copyurl/
+open_copied_url               : https://st.suckless.org/patches/open_copied_url/
+undercurl                     : https://st.suckless.org/patches/undercurl/
+w3m                           : https://st.suckless.org/patches/w3m/
+
+Violet's Keybindings
+--------------------
+These are applied on top of the default bindings in master/config.def.h
+
+Shift-PageUp    : scroll up one full page
+Shift-PageDown  : scroll down one full page
+Alt-l           : cycle through URLs (highlight and copy)
+Alt-Shift-L     : cycle backwards through URLs (highlight and copy)
+Alt-o           : open clipboard's URL with xdg-open
+
+Shift-ScrollUp  : scroll up one line
+Shift-ScrollDown: scroll down one line
 
 Requirements
 ------------
