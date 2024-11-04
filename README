@@ -11,6 +11,7 @@ copyurl (select, multiline)   : https://st.suckless.org/patches/copyurl/
 open_copied_url               : https://st.suckless.org/patches/open_copied_url/
 undercurl                     : https://st.suckless.org/patches/undercurl/
 w3m                           : https://st.suckless.org/patches/w3m/
+colorschemes (dark only)      : https://st.suckless.org/patches/colorschemes/
 
 Violet's Keybindings
 --------------------
