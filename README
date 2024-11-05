@@ -22,6 +22,12 @@ Shift-PageDown  : scroll down one full page
 Alt-l           : cycle through URLs (highlight and copy)
 Alt-Shift-L     : cycle backwards through URLs (highlight and copy)
 Alt-o           : open clipboard's URL with xdg-open
+Alt-0           : cycle through colorschemes
+Alt-Control-0   : cycle backwards through colorschemes
+Alt-1           : set theme to tokyonight-moon (default)
+Alt-2           : set theme to kanagawa-wave
+Alt-3           : set theme to catppuccin-mocha
+Alt-4           : set theme to gruvbox
 
 Shift-ScrollUp  : scroll up one line
 Shift-ScrollDown: scroll down one line
