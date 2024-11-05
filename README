@@ -15,6 +15,7 @@ colorschemes (dark only)           : https://st.suckless.org/patches/colorscheme
 selection (works with colorschemes): https://st.suckless.org/patches/selectioncolors/
 anysize                            : https://st.suckless.org/patches/anysize/
 fixterminals                       : https://st.suckless.org/patches/fix_keyboard_input/
+fullscreen                         : https://st.suckless.org/patches/fullscreen/
 
 cursor is a heart ♥
 
@@ -33,6 +34,7 @@ Alt-1           : set theme to tokyonight-moon (default)
 Alt-2           : set theme to kanagawa-wave
 Alt-3           : set theme to catppuccin-mocha
 Alt-4           : set theme to gruvbox
+Alt-Return      : toggle fullscreen
 
 Shift-ScrollUp  : scroll up one line
 Shift-ScrollDown: scroll down one line

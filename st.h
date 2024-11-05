@@ -88,6 +88,7 @@ void redraw(void);
 void draw(void);
 
 void opencopied(const Arg *);
+void fullscreen(const Arg *);
 void printscreen(const Arg *);
 void printsel(const Arg *);
 void sendbreak(const Arg *);
