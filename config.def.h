@@ -94,11 +94,14 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 typedef struct {
-	const char* const colors[258]; /* terminal colors */
+	const char* const colors[260]; /* terminal colors */
 	unsigned int fg;               /* foreground */
 	unsigned int bg;               /* background */
 	unsigned int cs;               /* cursor */
 	unsigned int rcs;              /* reverse cursor */
+  int sfg;                       /* selection fg */
+  int sbg;                       /* selection bg */
+  int isf;                       /* ignore sel fg */
 } ColorScheme;
 /*
  * Terminal colors (16 first used in escape sequence,
@@ -112,28 +115,28 @@ static const ColorScheme schemes[] = {
 	  "#82aaff", "#c099ff", "#86e1fc", "#828bb8",
 	  "#444a73", "#ff8d94", "#c7fb6d", "#ffd8ab",
 	  "#9ab8ff", "#caabff", "#b2ebff", "#c8d3f5",
-	  [256]="#222436", "#c8d3f5"}, 257, 256, 257, 256},
+	  [256]="#222436", "#c8d3f5", "#828bb8", "#2d3f76"}, 257, 256, 257, 256, 258, 259, 1},
 
   // 2: kanagawa-wave
 	{{"#16161d", "#c34043", "#76946a", "#c0a36e",
 	  "#7e9cd8", "#957fb8", "#6a9589", "#c8c093",
 	  "#727169", "#e82424", "#98bb6c", "#e6c384",
 	  "#7fb4ca", "#938aa9", "#7aa89f", "#dcd7ba",
-	  [256]="#dcd7ba", "#1f1f28"}, 15, 257, 15, 257},
+	  [256]="#dcd7ba", "#1f1f28", "#c8c093", "#223249"}, 15, 257, 15, 257, 258, 259, 1},
 
 	// 3: catppuccin-mocha
 	{{"#6c7086", "#f38ba8", "#a6e3a1", "#f9e2af",
 	  "#89b4fa", "#f5c2e7", "#89dceb", "#cdd6f4",
 	  "#7f849c", "#f38ba8", "#a6e3a1", "#f9e2af",
 	  "#89b4fa", "#f5c2e7", "#89dceb", "#cdd6f4",
-	  [256]="#1e1e2e", "#cdd6f4"}, 7, 256, 7, 256},
+	  [256]="#1e1e2e", "#cdd6f4", "#cdd6f4", "#45475a"}, 7, 256, 7, 256, 258, 259, 1},
 
 	// 4: gruvbox
 	{{"#282828", "#cc241d", "#98971a", "#d79921",
 	  "#458588", "#b16286", "#689d6a", "#a89984",
 	  "#928374", "#fb4934", "#b8bb26", "#fabd2f",
 	  "#83a598", "#d3869b", "#8ec07c", "#ebdbb2",
-	  [256]="#ebdbb2", "#555555"}, 15, 0, 256, 257},
+	  [256]="#ebdbb2", "#555555", "#a89984", "#665c54"}, 15, 0, 256, 257, 258, 259, 1},
 
 	// // alacritty
 	// {{"#1d1f21", "#cc6666", "#b5bd68", "#f0c674",
@@ -148,7 +151,6 @@ static const ColorScheme schemes[] = {
 	//   "#282c34", "#e06c75", "#98c379", "#e5c07b",
 	//   "#61afef", "#c678dd", "#56b6c2", "#dcdfe4",
 	//   [256]="#cccccc", "#555555"}, 7, 0, 256, 257},
-
 };
 
 static const char * const * colorname;
@@ -156,12 +158,15 @@ int colorscheme = 0;
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
+ * foreground, background, cursor, reverse cursor, selection
  */
 unsigned int defaultfg;
 unsigned int defaultbg;
 unsigned int defaultcs;
 static unsigned int defaultrcs;
+unsigned int selectionbg;
+unsigned int selectionfg;
+int ignoreselfg;
 
 /*
  * Default shape of cursor
@@ -182,7 +187,7 @@ static unsigned int rows = 24;
 /*
  * Default colour and shape of the mouse cursor
  */
-static unsigned int mouseshape = XC_xterm;
+static unsigned int mouseshape = XC_heart;
 static unsigned int mousefg = 7;
 static unsigned int mousebg = 0;
 

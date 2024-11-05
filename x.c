@@ -821,7 +821,7 @@ xloadcols(void)
 		for (cp = dc.col; cp < &dc.col[dc.collen]; ++cp)
 			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
 	} else {
-		dc.collen = 258;
+		dc.collen = 260;
 		dc.col = xmalloc(dc.collen * sizeof(Color));
 	}
 
@@ -1568,6 +1568,12 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 		bg = temp;
 	}
 
+	if (base.mode & ATTR_SELECTED) {
+		bg = &dc.col[selectionbg];
+		if (!ignoreselfg)
+			fg = &dc.col[selectionfg];
+	}
+
 	if (base.mode & ATTR_BLINK && win.mode & MODE_BLINK)
 		fg = bg;
 
@@ -1983,11 +1989,8 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
 
 	/* remove the old cursor */
 	if (selected(ox, oy))
-		og.mode ^= ATTR_REVERSE;
-
-	/* Redraw the line where cursor was previously.
-	 * It will restore the ligatures broken by the cursor. */
-	xdrawline(line, 0, oy, len);
+		og.mode |= ATTR_SELECTED;
+	xdrawglyph(og, ox, oy);
 
 	if (IS_SET(MODE_HIDE))
 		return;
@@ -1999,23 +2002,13 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
 
 	if (IS_SET(MODE_REVERSE)) {
 		g.mode |= ATTR_REVERSE;
+		g.fg = defaultcs;
 		g.bg = defaultfg;
-		if (selected(cx, cy)) {
-			drawcol = dc.col[defaultcs];
-			g.fg = defaultrcs;
-		} else {
-			drawcol = dc.col[defaultrcs];
-			g.fg = defaultcs;
-		}
+		drawcol = dc.col[defaultrcs];
 	} else {
-		if (selected(cx, cy)) {
-			g.fg = defaultfg;
-			g.bg = defaultrcs;
-		} else {
-			g.fg = defaultbg;
-			g.bg = defaultcs;
-		}
-		drawcol = dc.col[g.bg];
+		g.fg = defaultbg;
+		g.bg = defaultcs;
+		drawcol = dc.col[defaultcs];
 	}
 
 	/* draw the new one */
@@ -2129,10 +2122,12 @@ xdrawline(Line line, int x1, int y1, int x2)
 		if (new.mode == ATTR_WDUMMY)
 			continue;
 		if (selected(x, y1))
-			new.mode ^= ATTR_REVERSE;
-		if ((i > 0) && ATTRCMP(base, new)) {
+			new.mode |= ATTR_SELECTED;
+		if (i > 0 && ATTRCMP(base, new)) {
 			numspecs = xmakeglyphfontspecs(specs, &line[ox], x - ox, ox, y1);
 			xdrawglyphfontspecs(specs, base, numspecs, ox, y1, x - ox);
+			// specs += i;
+			// numspecs -= i;
 			i = 0;
 		}
 		if (i == 0) {
@@ -2530,6 +2525,9 @@ updatescheme(void)
 	defaultfg = schemes[colorscheme].fg;
 	defaultcs = schemes[colorscheme].cs;
 	defaultrcs = schemes[colorscheme].rcs;
+  selectionfg = schemes[colorscheme].sfg;
+  selectionbg = schemes[colorscheme].sbg;
+  ignoreselfg = schemes[colorscheme].isf;
 	xloadcols();
 	if (defaultbg != oldbg)
 		tupdatebgcolor(oldbg, defaultbg);
@@ -2596,6 +2594,9 @@ run:
 	defaultfg = schemes[colorscheme].fg;
 	defaultcs = schemes[colorscheme].cs;
 	defaultrcs = schemes[colorscheme].rcs;
+	selectionfg = schemes[colorscheme].sfg;
+	selectionbg = schemes[colorscheme].sbg;
+	ignoreselfg = schemes[colorscheme].isf;
 
 	if (argc > 0) /* eat all remaining arguments */
 		opt_cmd = argv;
