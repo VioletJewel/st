@@ -1288,6 +1288,31 @@ xinit(int cols, int rows)
 }
 
 void
+xresetcursor()
+{
+	Cursor cursor;
+	XColor xmousefg, xmousebg;
+
+	/* white cursor, black outline */
+	cursor = XCreateFontCursor(xw.dpy, mouseshape);
+	XDefineCursor(xw.dpy, xw.win, cursor);
+
+	if (XParseColor(xw.dpy, xw.cmap, colorname[mousefg], &xmousefg) == 0) {
+		xmousefg.red   = 0xffff;
+		xmousefg.green = 0xffff;
+		xmousefg.blue  = 0xffff;
+	}
+
+	if (XParseColor(xw.dpy, xw.cmap, colorname[mousebg], &xmousebg) == 0) {
+		xmousebg.red   = 0x0000;
+		xmousebg.green = 0x0000;
+		xmousebg.blue  = 0x0000;
+	}
+
+	XRecolorCursor(xw.dpy, cursor, &xmousefg, &xmousebg);
+}
+
+void
 xresetfontsettings(ushort mode, Font **font, int *frcflags)
 {
 	*font = &dc.font;
@@ -2557,6 +2582,7 @@ updatescheme(void)
 		tupdatefgcolor(oldfg, defaultfg);
 	cresize(win.w, win.h);
 	redraw();
+	xresetcursor();
 }
 
 int

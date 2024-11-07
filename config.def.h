@@ -188,7 +188,7 @@ static unsigned int rows = 24;
  * Default colour and shape of the mouse cursor
  */
 static unsigned int mouseshape = XC_heart;
-static unsigned int mousefg = 7;
+static unsigned int mousefg = 13;
 static unsigned int mousebg = 0;
 
 /*
@@ -210,8 +210,8 @@ static uint forcemousemod = ShiftMask;
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
-	{ ShiftMask,            Button4, kscrollup,      {.i = 1} },
-	{ ShiftMask,            Button5, kscrolldown,    {.i = 1} },
+	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 1} },
+	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i = 1} },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
@@ -229,30 +229,30 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
-	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_plus,        zoom,           {.f = +1} },
+	{ TERMMOD,              XK_underscore,  zoom,           {.f = -1} },
+	{ TERMMOD,              XK_parenright,  zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
-	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
-	{ MODKEY,               XK_l,           copyurl,        {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_L,           copyurl,        {.i =  1} },
+	{ MODKEY|ShiftMask,     XK_K,           kscrollup,      {.i = -1} },
+	{ MODKEY|ShiftMask,     XK_J,           kscrolldown,    {.i = -1} },
+	{ MODKEY,               XK_u,           copyurl,        {.i =  0} },
+	{ MODKEY|ShiftMask,     XK_U,           copyurl,        {.i =  1} },
 	{ MODKEY,               XK_o,           opencopied,     {.v = "xdg-open"} },
-	{ MODKEY,               XK_1,           selectscheme,   {.i =  0} },
-	{ MODKEY,               XK_2,           selectscheme,   {.i =  1} },
-	{ MODKEY,               XK_3,           selectscheme,   {.i =  2} },
-	{ MODKEY,               XK_4,           selectscheme,   {.i =  3} },
-	{ MODKEY,               XK_5,           selectscheme,   {.i =  4} },
-	{ MODKEY,               XK_6,           selectscheme,   {.i =  5} },
-	{ MODKEY,               XK_7,           selectscheme,   {.i =  6} },
-	{ MODKEY,               XK_8,           selectscheme,   {.i =  7} },
-	{ MODKEY,               XK_9,           selectscheme,   {.i =  8} },
-	{ MODKEY,               XK_0,           nextscheme,     {.i = +1} },
-	{ MODKEY|ControlMask,   XK_0,           nextscheme,     {.i = -1} },
+	{ MODKEY|ShiftMask,     XK_o,           opencopied,     {.v = "firefox"} },
+	{ MODKEY|ShiftMask,     XK_exclam,      selectscheme,   {.i =  0} },
+	{ MODKEY|ShiftMask,     XK_at,          selectscheme,   {.i =  1} },
+	{ MODKEY|ShiftMask,     XK_numbersign,  selectscheme,   {.i =  2} },
+	{ MODKEY|ShiftMask,     XK_dollar,      selectscheme,   {.i =  3} },
+	// { MODKEY|ShiftMask,     XK_percent,     selectscheme,   {.i =  4} },
+	// { MODKEY|ShiftMask,     XK_asciicircum, selectscheme,   {.i =  5} },
+	// { MODKEY|ShiftMask,     XK_ampersand,   selectscheme,   {.i =  6} },
+	// { MODKEY|ShiftMask,     XK_asterisk,    selectscheme,   {.i =  7} },
+	{ MODKEY|ShiftMask,     XK_parenright,  nextscheme,     {.i = +1} },
+	{ MODKEY|ShiftMask,     XK_parenleft,   nextscheme,     {.i = -1} },
 	{ MODKEY,               XK_Return,      fullscreen,     {.i =  0} },
 };
 
@@ -758,7 +758,7 @@ static Key key[] = {
 	{ XK_BackSpace,    Mod1Mask|ControlMask,           "\033[127;7u", 0,  0},
 	{ XK_BackSpace,    Mod1Mask|ControlMask|ShiftMask, "\033[127;8u", 0,  0},
 	{ XK_BackSpace,    Mod1Mask|ShiftMask,             "\033[127;4u", 0,  0},
-	{ XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0},
+	// { XK_BackSpace,    ShiftMask,                      "\033[127;2u", 0,  0}, // annoying
 	{ XK_Tab,          ControlMask,                    "\033[9;5u",   0,  0},
 	{ XK_Tab,          ControlMask|ShiftMask,          "\033[1;5Z",   0,  0},
 	{ XK_Tab,          Mod1Mask,                       "\033[1;3Z",   0,  0},
@@ -855,7 +855,7 @@ static Key key[] = {
 	{ XK_space,        Mod1Mask|ControlMask,           "\033[32;7u",  0,  0},
 	{ XK_space,        Mod1Mask|ControlMask|ShiftMask, "\033[32;8u",  0,  0},
 	{ XK_space,        Mod1Mask|ShiftMask,             "\033[32;4u",  0,  0},
-	{ XK_space,        ShiftMask,                      "\033[32;2u",  0,  0},
+	// { XK_space,        ShiftMask,                      "\033[32;2u",  0,  0}, // annoying
 	{ XK_0,            ControlMask,                    "\033[48;5u",  0,  0},
 	{ XK_A,            ControlMask|ShiftMask,          "\033[65;6u",  0,  0},
 	{ XK_B,            ControlMask|ShiftMask,          "\033[66;6u",  0,  0},

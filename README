@@ -17,27 +17,28 @@ anysize                            : https://st.suckless.org/patches/anysize/
 fixterminals                       : https://st.suckless.org/patches/fix_keyboard_input/
 fullscreen                         : https://st.suckless.org/patches/fullscreen/
 
-cursor is a heart ♥
+♥  X cursor is a heart  ♥  that changes with the theme  ♥
 
 Violet's Keybindings
 --------------------
 These are applied on top of the default bindings in master/config.def.h
 
-Shift-PageUp    : scroll up one full page
-Shift-PageDown  : scroll down one full page
-Alt-l           : cycle through URLs (highlight and copy)
-Alt-Shift-L     : cycle backwards through URLs (highlight and copy)
-Alt-o           : open clipboard's URL with xdg-open
-Alt-0           : cycle through colorschemes
-Alt-Control-0   : cycle backwards through colorschemes
-Alt-1           : set theme to tokyonight-moon (default)
-Alt-2           : set theme to kanagawa-wave
-Alt-3           : set theme to catppuccin-mocha
-Alt-4           : set theme to gruvbox
-Alt-Return      : toggle fullscreen
+Alt-Shift-K: scroll up one full page
+Alt-Shift-J: scroll down one full page
+Alt-l      : cycle through URLs (highlight and copy)
+Alt-Shift-L: cycle backwards through URLs (highlight and copy)
+Alt-o      : open clipboard's contents with xdg-open
+Alt-Shift-O: open clipboard's contents with firefox
+Alt-Shift-): cycle through colorschemes
+Alt-Shift-(: cycle backwards through colorschemes
+Alt-Shift-1: set theme to tokyonight-moon (default)
+Alt-Shift-2: set theme to kanagawa-wave
+Alt-Shift-3: set theme to catppuccin-mocha
+Alt-Shift-4: set theme to gruvbox
+Alt-Return : toggle fullscreen
 
-Shift-ScrollUp  : scroll up one line
-Shift-ScrollDown: scroll down one line
+ScrollUp   : scroll up one line
+ScrollDown : scroll down one line
 
 Requirements
 ------------
