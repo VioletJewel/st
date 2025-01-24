@@ -241,8 +241,7 @@ static Shortcut shortcuts[] = {
 	{ MODKEY|ShiftMask,     XK_J,           kscrolldown,    {.i = -1} },
 	{ MODKEY,               XK_u,           copyurl,        {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_U,           copyurl,        {.i =  1} },
-	{ MODKEY,               XK_o,           opencopied,     {.v = "xdg-open"} },
-	{ MODKEY|ShiftMask,     XK_o,           opencopied,     {.v = "firefox"} },
+	{ MODKEY|ShiftMask,     XK_O,           opencopied,     {.v = "xdg-open"} },
 	{ MODKEY|ShiftMask,     XK_exclam,      selectscheme,   {.i =  0} },
 	{ MODKEY|ShiftMask,     XK_at,          selectscheme,   {.i =  1} },
 	{ MODKEY|ShiftMask,     XK_numbersign,  selectscheme,   {.i =  2} },
@@ -253,7 +252,7 @@ static Shortcut shortcuts[] = {
 	// { MODKEY|ShiftMask,     XK_asterisk,    selectscheme,   {.i =  7} },
 	{ MODKEY|ShiftMask,     XK_parenright,  nextscheme,     {.i = +1} },
 	{ MODKEY|ShiftMask,     XK_parenleft,   nextscheme,     {.i = -1} },
-	{ MODKEY,               XK_Return,      fullscreen,     {.i =  0} },
+	{ MODKEY|ShiftMask,     XK_Return,      fullscreen,     {.i =  0} },
 };
 
 /*
